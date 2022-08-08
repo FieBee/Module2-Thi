@@ -59,7 +59,7 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Product{" +
+        return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
@@ -67,4 +67,5 @@ public class Product implements Serializable {
                 ", describe='" + describe + '\'' +
                 '}' + "\n";
     }
+
 }

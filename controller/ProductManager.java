@@ -17,6 +17,7 @@ public class ProductManager {
         for (Product element: productList
         ) {
             System.out.println(stt + ". "+element);
+            stt ++;
         }
     }
 
@@ -56,16 +57,15 @@ public class ProductManager {
 
     public  void findMaxPrice(){
         productList.sort(Comparator.comparingInt(Product::getPrice));
-        System.out.println(" Sản phẩm giá đắt nhất là: ");
         System.out.println(productList.get(productList.size()-1));
 
     }
 
     public int checkId(int id){
-        if (productList.get(id) != null){
-            return id;
-        }else {
-            System.out.println();
+        for (int i = 0; i < productList.size(); i++) {
+            if (productList.get(i).getId() == id ){
+                return id;
+            }
         }
         return -1;
     }

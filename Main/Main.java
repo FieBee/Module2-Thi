@@ -31,90 +31,139 @@ static ProductManager productManager = new ProductManager();
                 System.out.println("8. Ghi vào file");
                 System.out.println("9. Thoát");
                 System.out.println("Chọn chức năng: ");
+                System.out.println("----------------------------------");
 
                 int choice = scanner.nextInt();
                 switch (choice) {
                     case 1:
                         productManager.displayProduct();
+                        System.out.println("----------------------------------");
                         break;
                     case 2:
                         System.out.println("Thêm sản phẩm");
-                        System.out.println("Nhập id sản phẩm muốn thêm mới: ");
-                        int id = scanner.nextInt();
-                        System.out.println("Nhập tên sản phẩm muốn tạo mới: ");
-                        String name = scanner1.nextLine();
-                        System.out.println("Nhập giá tiền:");
-                        int price = scanner.nextInt();
-                        System.out.println("Nhập số lượng:");
-                        int quantity = scanner.nextInt();
-                        System.out.println("Nhập mô tả: ");
-                        String describe = scanner1.nextLine();
-                        Product newProduct = new Product(id, name, price, quantity, describe);
-                        productManager.addProduc(newProduct);
 
-                        System.out.println("Thêm sản phẩm thành công!!" + newProduct);
+                        try{
+                            System.out.println("Nhập id sản phẩm muốn thêm mới: ");
+                            int id = scanner.nextInt();
+                            System.out.println("Nhập tên sản phẩm muốn tạo mới: ");
+                            String name = scanner1.nextLine();
+                            System.out.println("Nhập giá tiền:");
+                            int price = scanner.nextInt();
+                            System.out.println("Nhập số lượng:");
+                            int quantity = scanner.nextInt();
+                            System.out.println("Nhập mô tả: ");
+                            String describe = scanner1.nextLine();
+                            Product newProduct = new Product(id, name, price, quantity, describe);
+                            productManager.addProduc(newProduct);
+
+                            System.out.println("Thêm sản phẩm thành công!!" + newProduct);
+                        }catch (InputMismatchException e){
+                            System.out.println("Sai dữ liệu!!!");
+                            System.out.println("----------------------------------");
+                            menuManager();
+                        }
 
                         break;
                     case 3:
                         try{
                             System.out.println("Nhập id sản phẩm muốn sửa: ");
-                            int checkId = productManager.checkId(scanner.nextInt());
-                            System.out.println("Nhập tên sản phẩm muốn sửa: ");
-                            String name1 = scanner.nextLine();
-                            System.out.println("Nhập giá tiền:");
-                            int price1 = scanner.nextInt();
-                            System.out.println("Nhập số lượng:");
-                            int quantity1 = scanner.nextInt();
-                            System.out.println("Nhập mô tả: ");
-                            String describe1 = scanner1.nextLine();
+                            int id1 = productManager.checkId(scanner.nextInt());
+                            if (id1 == -1){
+                                System.out.println("Id không tồn tại!!!");
+                            }else{
+                                System.out.println("Nhập tên sản phẩm muốn sửa: ");
+                                String name1 = scanner1.nextLine();
+                                System.out.println("Nhập giá tiền:");
+                                int price1 = scanner.nextInt();
+                                System.out.println("Nhập số lượng:");
+                                int quantity1 = scanner.nextInt();
+                                System.out.println("Nhập mô tả: ");
+                                String describe1 = scanner1.nextLine();
 
-                            Product newProduct1 = new Product(checkId, name1, price1, quantity1, describe1);
+                                Product newProduct1 = new Product(id1, name1, price1, quantity1, describe1);
 
-                            productManager.editProduc(checkId, newProduct1);
+                                productManager.editProduc(id1, newProduct1);
 
-                            System.out.println("Sửa sản phẩm thành công!!");
-
-
+                                System.out.println("Sửa sản phẩm thành công!!" + newProduct1);
+                            }
                             break;
                         }catch (InputMismatchException e){
-                            System.out.println("Id khong ton tai!!");
+                            System.err.println("Sai dữ liệu!!!");
+                            System.out.println("----------------------------------");
                             menuManager();
                         }
 
 
 
                     case 4:
-                        System.out.println("Nhập id sản phẩm muốn xóa: ");
-                        int id2 = scanner1.nextInt();
 
-                        if (productManager.productList.get(id2) == null) {
-                            System.out.println("Id không tồn tại!!");
+                        try{
+                            System.out.println("Nhập id sản phẩm muốn xóa: ");
+                            int id2 = scanner.nextInt();
+                            productManager.checkId(id2);
+                            if (id2 == -1){
+                                System.out.println("Id không tồn tại!!!");
+                            }else{
+                                System.out.println();
+                                productManager.deleteProduc(id2);
+                            }
+                        }catch (InputMismatchException e){
+                            System.out.println("Sai dữ liêu");
+                            System.out.println("----------------------------------");
                             menuManager();
-                        } else {
-                            productManager.deleteProduc(id2);
                         }
+
                         break;
                     case 5:
-                        productManager.sortProduct();
+                        try {
+                            System.out.println("1. Sắp xếp");
+                            System.out.println("2. Hiển thị danh sách đã sắp xếp");
+                            System.out.println("3. Trở về menu chính");
+                            int case5 = scanner.nextInt();
+                            switch (case5){
+                                case 1:
+                                    productManager.sortProduct();
+                                    break;
+                                case 2:
+                                    productManager.displayProduct();
+                                    break;
+                                case 3:
+                                    menuManager();
+                                    break;
+                            }
+                        } catch (InputMismatchException e){
+                            System.err.println("Sai dữ liệu!!!");
+                            System.out.println("----------------------------------");
+                        }
                         break;
+
                     case 6:
+                        System.out.println("Mặt hàng đắt nhất: ");
                         productManager.findMaxPrice();
+                        System.out.println("----------------------------------");
                         break;
                     case 7:
                         productManager.readFile();
+                        System.out.println("Đọc file: ");
+                        System.out.println("----------------------------------");
                         break;
                     case 8:
                         productManager.writeFile();
+                        System.out.println("Đã ghi file");
+                        System.out.println("----------------------------------");
                         break;
                     case 9:
                         System.out.println("Bye");
-                        return;
+                        System.exit(0);
                     default:
+                        System.out.println("Lựa chọn không tồn tại!!!");
+                        System.out.println("-----------------------------------");
                         break;
                 }
             } while (true);
         }catch (Exception e){
-            System.out.println("Loi");
+            System.out.println("Lỗi gì đó khum biết (T.T) ");
+            System.out.println("-------------------------------------");
             menuManager();
         }
     }
