@@ -1,17 +1,14 @@
 package controller;
 
-import jdk.jfr.internal.tool.Main;
 import model.Product;
 import storage.ReadWriteFile;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 public class ProductManager {
 
-    private ReadWriteFile readWriteFile = ReadWriteFile.getInstance();
+    private final ReadWriteFile readWriteFile = ReadWriteFile.getInstance();
     public List<Product> productList = readWriteFile.readData();
 
 
@@ -36,17 +33,12 @@ public class ProductManager {
     }
 
     public void sortProduct(){
-        Collections.sort(productList, new Comparator<Product>() {
-            public int compare(Product o1, Product o2) {
-                return o1.getPrice() - o2.getPrice();
-            }
-        });
+        productList.sort(Comparator.comparingInt(Product::getPrice));
         displayProduct();
     }
     public void writeFile(){
         try{
             readWriteFile.writeData(productList);
-            System.out.println("");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -63,11 +55,7 @@ public class ProductManager {
     }
 
     public  void findMaxPrice(){
-        productList.sort(new Comparator<Product>() {
-            public int compare(Product o1, Product o2) {
-                return o1.getPrice() - o2.getPrice();
-            }
-        });
+        productList.sort(Comparator.comparingInt(Product::getPrice));
         System.out.println(" Sản phẩm giá đắt nhất là: ");
         System.out.println(productList.get(productList.size()-1));
 

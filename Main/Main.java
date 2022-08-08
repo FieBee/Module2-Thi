@@ -2,17 +2,12 @@ package Main;
 
 import controller.ProductManager;
 import model.Product;
-import storage.ReadWriteFile;
 
-import java.io.File;
 import java.util.*;
 
 public class Main {
 
-//    Main main = new Main();
 static ProductManager productManager = new ProductManager();
-    private ReadWriteFile readWriteFile = ReadWriteFile.getInstance();
-
 
     public static void main(String[] args) {
         menuManager();
@@ -63,30 +58,23 @@ static ProductManager productManager = new ProductManager();
                     case 3:
                         try{
                             System.out.println("Nhập id sản phẩm muốn sửa: ");
-                            int checkId = 0;
-                            do {
-                                checkId = productManager.checkId(scanner.nextInt());
+                            int checkId = productManager.checkId(scanner.nextInt());
+                            System.out.println("Nhập tên sản phẩm muốn sửa: ");
+                            String name1 = scanner.nextLine();
+                            System.out.println("Nhập giá tiền:");
+                            int price1 = scanner.nextInt();
+                            System.out.println("Nhập số lượng:");
+                            int quantity1 = scanner.nextInt();
+                            System.out.println("Nhập mô tả: ");
+                            String describe1 = scanner1.nextLine();
 
-                            }while (checkId <0 && checkId >= productManager.productList.size());
+                            Product newProduct1 = new Product(checkId, name1, price1, quantity1, describe1);
 
-                            if (checkId != -1) {
-                                System.out.println("Nhập tên sản phẩm muốn sửa: ");
-                                String name1 = scanner.nextLine();
-                                System.out.println("Nhập giá tiền:");
-                                int price1 = scanner.nextInt();
-                                System.out.println("Nhập số lượng:");
-                                int quantity1 = scanner.nextInt();
-                                System.out.println("Nhập mô tả: ");
-                                String describe1 = scanner1.nextLine();
+                            productManager.editProduc(checkId, newProduct1);
 
-                                Product newProduct1 = new Product(checkId, name1, price1, quantity1, describe1);
+                            System.out.println("Sửa sản phẩm thành công!!");
 
-                                productManager.editProduc(checkId, newProduct1);
 
-                                System.out.println("Sửa sản phẩm thành công!!");
-                            } else {
-                                menuManager();
-                            }
                             break;
                         }catch (InputMismatchException e){
                             System.out.println("Id khong ton tai!!");
